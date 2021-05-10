@@ -25,7 +25,6 @@ const cards: Card[] = [
   },
   { id: 8, quote: 'Preguntale a tu cuerpo.' },
   { id: 9, quote: 'Ensuciate.' },
-
   { id: 10, quote: 'Sé extravagante.' },
   { id: 11, quote: 'Sé menos crítico.' },
   { id: 12, quote: 'Respirá más profundo.' },
@@ -96,7 +95,7 @@ const cards: Card[] = [
   { id: 70, quote: 'Sacale las partes importantes.' },
   { id: 71, quote: 'El principio de inconsistencia.' },
   { id: 72, quote: 'La cosa más fácilmente olvidable es la más importante.' },
-  { id: 73, quote: 'Pensa - dentro de la obra - fuera de la obra.' },
+  { id: 73, quote: 'Pensá - dentro de la obra - fuera de la obra.' },
   { id: 74, quote: 'Ordená.' },
   { id: 75, quote: 'Tratá de hacer trampa.' },
   { id: 76, quote: 'Dalo vuelta.' },
@@ -122,7 +121,7 @@ const cards: Card[] = [
   { id: 96, quote: '¿Alguien lo querría?' },
   { id: 97, quote: 'Tu error fue una intención oculta.' },
 ];
-// @ts-ignore
+
 export const getCard = (): Card =>
   cards[Math.floor(Math.random() * cards.length)];
 export const getCardText = (): string => getCard().quote;
