@@ -124,4 +124,3 @@ const cards: Card[] = [
 
 export const getCard = (): Card =>
   cards[Math.floor(Math.random() * cards.length)];
-export const getCardText = (): string => getCard().quote;
