@@ -1,4 +1,21 @@
-# Node TypeScript Starter
+# Estrategias Oblicuas Bot 📇
+
+Bot de Twitter que emula el juego de cartas "Oblique Strategies", diseñado por Brian Eno y Peter Schmidt en 1975.
+
+![image](https://user-images.githubusercontent.com/32349705/117721725-995b6500-b1b6-11eb-89f6-f8a4b28f0922.png)
+
+For an english version, refer to README_en.md file.
+
+## Tech stack
+
+### Repositorio base
+* [node-ts-starter](https://github.com/HorusGoul/node-ts-starter) - Proyecto base para generar aplicaciones en Node con TypeScript.
+
+### Librerías
+* [node-html-to-image](https://www.npmjs.com/package/node-html-to-image) - Generación de imágenes a partir de texto y HTML.
+* [prettier](https://www.npmjs.com/package/prettier) - Para mantener convenciones de estilo en el código.
+* [dotenv](https://www.npmjs.com/package/dotenv) - Manejo de variables de entorno
+
 
 ## Getting started
 
