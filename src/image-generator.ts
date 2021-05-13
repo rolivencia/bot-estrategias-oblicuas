@@ -3,7 +3,6 @@ import { Card } from './cards';
 import { noisyBackground } from './base64image';
 import { base64font } from './base64font';
 
-const rotation = `${Math.random() * (3 - -3) + -3}deg`; // Random rotation. Between -3 and 3 degrees
 const backgroundImages = [
   'https://i.ibb.co/Njzpk0z/background.jpg',
   'https://i1.wp.com/images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/46786465-0f32-4e4d-893f-41d9d6c05c02/d7x9bhx-e9212674-8bde-40e6-8148-3185db4462c3.jpg/v1/fill/w_1024,h_512,q_70,strp/textura_de_madera_2400x1200_by_estudioestuma_d7x9bhx-fullview.jpg',
@@ -11,7 +10,7 @@ const backgroundImages = [
   'https://two7tiles.com/wp-content/uploads/2018/01/wood-walnut1000x3000x10_RGB-1024x512.jpg',
 ];
 
-const style = `
+const style = (rotation: string) => `
             <style>
               @font-face {
                 font-family: "Sequel Sans Roman Body";
@@ -64,11 +63,14 @@ const style = `
             </style>
 `;
 
-export const generateImage = (card: Card): Promise<string | Buffer | (string | Buffer)[]> => {
+export const generateImage = (
+  card: Card,
+): Promise<string | Buffer | (string | Buffer)[]> => {
+  const rotation = `${Math.random() * (3 - -3) + -3}deg`; // Reassign to recalculate degree for current card.
   return nodeHtmlToImage({
     html: `
         <html>
-            ${style}
+            ${style(rotation)}
             <body>
                 <img id="image-background" src="{{imageSource}}"/>
                 <div id="card-overlay"></div>
