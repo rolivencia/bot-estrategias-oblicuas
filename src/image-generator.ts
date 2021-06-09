@@ -57,7 +57,7 @@ const style = (rotation: string) => `
               #card p{
                 padding: 16px 64px 16px 64px;
                 font-size: 36px;
-                text-align: justify;
+                text-align: left;
                 z-index: 3
               }
             </style>
