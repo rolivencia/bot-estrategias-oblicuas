@@ -2,15 +2,14 @@ import Twit from 'twit';
 import { Card, getCard } from './cards';
 import { generateImage } from './image-generator';
 import { IncomingMessage } from 'http';
+import 'regenerator-runtime/runtime';
 
 const Twitter = new Twit(require('./config'));
 
 const tweetCard = async (tweet?: Twit.Twitter.Status) => {
   const grabbedCard: Card = getCard();
-  const bufferedImage:
-    | string
-    | Buffer
-    | (string | Buffer)[] = await generateImage(getCard());
+  const bufferedImage: string | Buffer | (string | Buffer)[] =
+    await generateImage(getCard());
 
   const params: {
     media_data?: string;
@@ -70,4 +69,4 @@ const stream = Twitter.stream('statuses/filter', { track: '@EOblicuasBot' });
 stream.on('tweet', tweetCard);
 
 void tweetCard();
-setInterval(tweetCard, 1000 * 60 * 60 * 3);
+setInterval(tweetCard, 1000 * 60 * 60 * 6);
