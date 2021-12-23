@@ -81,5 +81,6 @@ export const generateImage = (
       imageSource:
         backgroundImages[Math.floor(Math.random() * backgroundImages.length)],
     },
+    puppeteerArgs: { args: ['--no-sandbox'] },
   });
 };
