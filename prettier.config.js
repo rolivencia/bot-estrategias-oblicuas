@@ -9,4 +9,5 @@ module.exports = {
   arrowParens: 'always',
   htmlWhitespaceSensitivity: 'strict',
   embeddedLanguageFormatting: 'off',
+  endOfLine: 'auto',
 };
