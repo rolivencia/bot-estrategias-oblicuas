@@ -2,13 +2,17 @@ import nodeHtmlToImage from 'node-html-to-image';
 import { Card } from './cards';
 import { noisyBackground } from './base64image';
 import { base64font } from './base64font';
+import path from 'path';
+import fs from 'fs';
 
 const backgroundImages = [
-  'https://i.ibb.co/Njzpk0z/background.jpg',
-  'https://i1.wp.com/images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/46786465-0f32-4e4d-893f-41d9d6c05c02/d7x9bhx-e9212674-8bde-40e6-8148-3185db4462c3.jpg/v1/fill/w_1024,h_512,q_70,strp/textura_de_madera_2400x1200_by_estudioestuma_d7x9bhx-fullview.jpg',
-  'https://cutewallpaper.org/21/wooden-background-hd/Wood-Backgrounds-25-Free-HD-Wood-Backgrounds-and-Textures.jpg',
-  'https://two7tiles.com/wp-content/uploads/2018/01/wood-walnut1000x3000x10_RGB-1024x512.jpg',
+  path.join(__dirname, '/assets/background.jpg'),
+  path.join(__dirname, '/assets/background2.jpg'),
+  path.join(__dirname, '/assets/background3.jpg'),
+  path.join(__dirname, '/assets/background4.jpg'),
 ];
+
+console.log(backgroundImages);
 
 const style = (rotation: string) => `
             <style>
@@ -67,6 +71,7 @@ export const generateImage = (
   card: Card,
 ): Promise<string | Buffer | (string | Buffer)[]> => {
   const rotation = `${Math.random() * (3 - -3) + -3}deg`; // Reassign to recalculate degree for current card.
+
   return nodeHtmlToImage({
     html: `
         <html>
@@ -78,9 +83,17 @@ export const generateImage = (
             </body>
         </html>`,
     content: {
-      imageSource:
-        backgroundImages[Math.floor(Math.random() * backgroundImages.length)],
+      imageSource: generateBase64Image(),
     },
     puppeteerArgs: { args: ['--no-sandbox'] },
   });
+};
+
+const generateBase64Image = () => {
+  const imageFile =
+    backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
+
+  const binaryFile = fs.readFileSync(imageFile);
+  const base64Image = new Buffer(binaryFile).toString('base64');
+  return `data:image/png;base64, ${base64Image}`;
 };
