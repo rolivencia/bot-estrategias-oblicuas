@@ -32,7 +32,7 @@ $ cd tu-proyecto
 $ npm install
 ```
 
-3. Generá un archivo .env con las variables e entorno requeridas por la API de Twitter:
+3. Generá un archivo .env con las variables de entorno requeridas por la API de Twitter:
 
 ```
 
@@ -48,8 +48,6 @@ access_token_secret=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```bash
 $ npm run dev
 ```
-
-4. You can start coding! The entry point is located in `src/index.ts`.
 
 ## Preconfiguración
 
