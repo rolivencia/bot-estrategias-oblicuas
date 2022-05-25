@@ -12,8 +12,6 @@ const backgroundImages = [
   path.join(__dirname, '/assets/background4.jpg'),
 ];
 
-console.log(backgroundImages);
-
 const style = (rotation: string) => `
             <style>
               @font-face {
