@@ -35,15 +35,19 @@ $ npm install
 3. Generá un archivo .env con las variables de entorno requeridas por la API de Twitter:
 
 ```
-
 consumer_key=XXXXXXXXXXXXXXXXXXXXXXXXX
 consumer_secret=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 access_token=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 access_token_secret=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
 ```
 
-4. Lanzá el modo desarrollador
+4. Adicionalmente, podés configurar entre publicaciones, en horas:
+
+```
+post_interval_in_hours=24
+```
+
+5. Lanzá el modo desarrollador
 
 ```bash
 $ npm run dev
