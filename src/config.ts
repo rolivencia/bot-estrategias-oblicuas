@@ -8,4 +8,6 @@ const environment = {
   accessSecret: process.env.access_token_secret,
 };
 
-module.exports = environment;
+const postIntervalInHours: number = parseInt(process.env.post_interval_in_hours);
+
+module.exports = { environment, postIntervalInHours };

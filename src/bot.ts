@@ -2,8 +2,9 @@ import 'regenerator-runtime/runtime';
 import TwitterApi, { ETwitterStreamEvent, TweetV1 } from 'twitter-api-v2';
 import { generateImage } from './image-generator';
 import { getCard } from './cards';
+const config = require('./config');
 
-const client = new TwitterApi(require('./config'));
+const client = new TwitterApi(config.environment);
 let stream;
 
 const setupStream = async () => {
@@ -40,4 +41,4 @@ const tweetCard = async (tweet?: TweetV1) => {
 
 void tweetCard();
 void setupStream();
-setInterval(tweetCard, 1000 * 60 * 60 * 24);
+setInterval(tweetCard, 1000 * 60 * 60 * config.postIntervalInHours);
