@@ -1,7 +1,7 @@
 import 'regenerator-runtime/runtime';
 import TwitterApi, { ETwitterStreamEvent, TweetV1 } from 'twitter-api-v2';
 import { generateImage } from './image-generator';
-import {Card, getCard} from './cards';
+import { Card, getCard } from './cards';
 const config = require('./config');
 
 const client = new TwitterApi(config.environment);
@@ -14,12 +14,20 @@ const setupStream = async () => {
 
 const uploadMedia = async (): Promise<string[]> => {
   const card: Card = getCard();
-  console.log(`Twitted strategy ${card.id}: ${card.quote}`);
+  console.log(
+    `Twitted strategy ${card.id}: ${card.quote} - ${new Date().toString()}`,
+  );
   const bufferedImage: string | Buffer | (string | Buffer)[] =
     await generateImage(card);
-  return await Promise.all([
-    client.v1.uploadMedia(bufferedImage as Buffer, { type: 'png' }),
-  ]);
+
+  const mediaId = await client.v1.uploadMedia(bufferedImage as Buffer, {
+    type: 'png',
+  });
+  await client.v1.createMediaMetadata(mediaId, {
+    alt_text: { text: card.quote },
+  });
+
+  return await Promise.all([mediaId]);
 };
 
 // TODO: Add alt text for card images, for use by screen readers
