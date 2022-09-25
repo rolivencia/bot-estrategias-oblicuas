@@ -14,7 +14,9 @@ const setupStream = async () => {
 
 const uploadMedia = async (): Promise<string[]> => {
   const card: Card = getCard();
-  console.log(`Twitted strategy ${card.id}: ${card.quote}`);
+  console.log(
+    `Twitted strategy ${card.id}: ${card.quote} - ${new Date().toString()}`,
+  );
   const bufferedImage: string | Buffer | (string | Buffer)[] =
     await generateImage(card);
 
