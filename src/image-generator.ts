@@ -92,6 +92,6 @@ const generateBase64Image = () => {
     backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
 
   const binaryFile = fs.readFileSync(imageFile);
-  const base64Image = new Buffer(binaryFile).toString('base64');
+  const base64Image = Buffer.from(binaryFile).toString('base64');
   return `data:image/png;base64, ${base64Image}`;
 };
