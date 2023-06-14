@@ -8,7 +8,7 @@ const environment = {
   accessSecret: process.env.access_token_secret,
 };
 
-const intervalEnv: string = process.env.post_interval_in_hours;
+const intervalEnv: string | undefined = process.env.post_interval_in_hours;
 
 const postIntervalInHours: number = intervalEnv ? parseInt(intervalEnv) : 24;
 
