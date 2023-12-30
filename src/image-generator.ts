@@ -69,6 +69,7 @@ export const generateImage = (
   card: Card,
 ): Promise<string | Buffer | (string | Buffer)[]> => {
   const rotation = `${Math.random() * (3 - -3) + -3}deg`; // Reassign to recalculate degree for current card.
+  const base64Image = generateBase64Image();
 
   return nodeHtmlToImage({
     html: `
@@ -81,7 +82,7 @@ export const generateImage = (
             </body>
         </html>`,
     content: {
-      imageSource: generateBase64Image(),
+      imageSource: base64Image,
     },
     puppeteerArgs: { args: ['--no-sandbox'] },
   });
