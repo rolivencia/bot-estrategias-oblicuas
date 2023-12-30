@@ -1,16 +1,10 @@
 import 'regenerator-runtime/runtime';
-import TwitterApi, { ETwitterStreamEvent, TweetV1 } from 'twitter-api-v2';
+import TwitterApi, { TweetV1 } from 'twitter-api-v2';
 import { generateImage } from './image-generator';
 import { Card, getCard } from './cards';
-const config = require('./config');
+import { config } from './config';
 
 const client = new TwitterApi(config.environment);
-let stream;
-
-const setupStream = async () => {
-  stream = await client.v1.filterStream({ track: '@EOblicuasBot' });
-  stream.on(ETwitterStreamEvent.Data, tweetCard);
-};
 
 const uploadMedia = async (): Promise<string[]> => {
   const card: Card = getCard();
@@ -43,12 +37,13 @@ const tweetCard = async (tweet?: TweetV1) => {
       { media_ids: mediaIds },
     );
   } else {
-    await client.v1.tweet('', {
-      media_ids: mediaIds,
+    await client.v2.tweet('', {
+      media: { media_ids: mediaIds },
     });
   }
 };
 
+const oneHourInMilliseconds = 1000 * 60 * 60;
+
 void tweetCard();
-void setupStream();
-setInterval(tweetCard, 1000 * 60 * 60 * config.postIntervalInHours);
+setInterval(tweetCard, oneHourInMilliseconds * config.postIntervalInHours);
