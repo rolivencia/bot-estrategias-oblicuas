@@ -3,6 +3,7 @@ import TwitterApi, { TweetV1 } from 'twitter-api-v2';
 import { generateImage } from './image-generator';
 import { Card, getCard } from './cards';
 import { config } from './config';
+import { CronJob } from 'cron';
 
 const client = new TwitterApi(config.environment);
 
@@ -43,7 +44,12 @@ const tweetCard = async (tweet?: TweetV1) => {
   }
 };
 
-const oneHourInMilliseconds = 1000 * 60 * 60;
-
-void tweetCard();
-setInterval(tweetCard, oneHourInMilliseconds * config.postIntervalInHours);
+new CronJob(
+  '30 10 * * *',
+  async function () {
+    await tweetCard();
+  },
+  null,
+  true,
+  'America/Argentina/Buenos_Aires',
+);
