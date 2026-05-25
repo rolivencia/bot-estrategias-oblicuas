@@ -24,23 +24,66 @@ const fontData = fs.readFileSync(
   path.join(__dirname, '/assets/sequel-sans-roman-body.otf'),
 );
 
-const markup = (card: Card, backgroundImage: string, rotation: string) => {
-  const cardBox =
-    'position: absolute; top: 80px; left: 112px; width: 768px; height: 384px; border-radius: 32px; background-color: white;';
-  const root = `display: flex; position: relative; width: ${WIDTH}px; height: ${HEIGHT}px;`;
-  const image = `position: absolute; top: 0; left: 0; width: ${WIDTH}px; height: ${HEIGHT}px;`;
-  const overlay = `${cardBox} display: flex; background-image: url(${noisyBackground}); opacity: 0.15; transform: rotate(${rotation});`;
-  const card3d = `${cardBox} display: flex; align-items: center; justify-content: center; transform: rotate(${rotation}); box-shadow: 0px 54px 55px rgba(0, 0, 0, 0.25), 0px 12px 13px rgba(0, 0, 0, 0.17), 0px 4px 6px rgba(0, 0, 0, 0.12);`;
-  const quote = `display: flex; padding: 16px 64px; font-size: 36px; text-align: left; font-family: '${FONT_FAMILY}';`;
+const styles = (rotation: string) => `
+  #root {
+    display: flex;
+    position: relative;
+    width: ${WIDTH}px;
+    height: ${HEIGHT}px;
+  }
+  #background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: ${WIDTH}px;
+    height: ${HEIGHT}px;
+  }
+  #card-overlay {
+    position: absolute;
+    top: 80px;
+    left: 112px;
+    display: flex;
+    width: 768px;
+    height: 384px;
+    border-radius: 32px;
+    background-color: white;
+    background-image: url(${noisyBackground});
+    opacity: 0.15;
+    transform: rotate(${rotation});
+  }
+  #card {
+    position: absolute;
+    top: 80px;
+    left: 112px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 768px;
+    height: 384px;
+    border-radius: 32px;
+    background-color: white;
+    transform: rotate(${rotation});
+    box-shadow: 0px 54px 55px rgba(0, 0, 0, 0.25),
+      0px 12px 13px rgba(0, 0, 0, 0.17), 0px 4px 6px rgba(0, 0, 0, 0.12);
+  }
+  #card p {
+    padding: 16px 64px;
+    font-size: 36px;
+    text-align: left;
+    font-family: '${FONT_FAMILY}';
+  }
+`;
 
-  return html`
-    <div style="${root}">
-      <img src="${backgroundImage}" style="${image}" />
-      <div style="${overlay}"></div>
-      <div style="${card3d}"><p style="${quote}">${card.quote}</p></div>
-    </div>
-  `;
-};
+const markup = (card: Card, backgroundImage: string, rotation: string) => html`
+  <div id="root">
+    <style>
+      ${styles(rotation)}
+    </style>
+    <img id="background" src="${backgroundImage}" />
+    <div id="card-overlay"></div>
+    <div id="card"><p>${card.quote}</p></div>
+  </div>
+`;
 
 export const generateImage = async (card: Card): Promise<Buffer> => {
   const rotation = `${Math.random() * 6 - 3}deg`;
