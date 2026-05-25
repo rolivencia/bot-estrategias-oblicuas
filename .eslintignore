@@ -1,0 +1,5 @@
+dist
+node_modules
+src/assets
+src/base64font.ts
+src/base64image.ts

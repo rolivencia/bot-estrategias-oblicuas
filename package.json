@@ -1,17 +1,17 @@
 {
   "name": "bot-estrategias-oblicuas",
   "version": "1.0.0",
-  "main": "bot.js",
+  "main": "src/bot.ts",
+  "type": "module",
   "author": "Ramiro Olivencia",
   "license": "MIT",
   "scripts": {
-    "build": "babel ./src -d ./dist --extensions .ts && copyfiles --flat src/assets/* ./dist/assets",
-    "dev": "tsnd --respawn -r @babel/register src/bot.ts",
+    "dev": "tsx watch src/bot.ts",
     "lint": "npm run lint:base 'src/**'",
     "lint:base": "eslint --ext .js,.json,.ts",
     "prettify": "npx prettier --write .",
-    "start": "node dist/bot.js",
-    "typecheck": "tsc"
+    "start": "tsx src/bot.ts",
+    "typecheck": "tsc --noEmit"
   },
   "lint-staged": {
     "src/**/*.{ts,js,json}": [
@@ -24,19 +24,13 @@
     }
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "7.18.6",
-    "@babel/node": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "@babel/preset-typescript": "^7.12.7",
-    "@babel/register": "^7.12.10",
     "@types/cron": "^2.4.3",
-    "@types/node": "^14.14.16",
+    "@types/node": "^20.14.0",
     "@types/puppeteer": "^5.4.3",
-    "@typescript-eslint/eslint-plugin": "^5.26.0",
-    "@typescript-eslint/parser": "^5.26.0",
+    "@typescript-eslint/eslint-plugin": "^8.59.0",
+    "@typescript-eslint/parser": "^8.59.0",
     "browserslist": ">=4.16.5",
-    "eslint": "^8.16.0",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-prettier": "^4.0.0",
@@ -48,20 +42,17 @@
     "prettier": "^2.3.0",
     "semver-regex": ">=3.1.3",
     "trim-newlines": ">=3.0.1",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^4.1.3",
+    "typescript": "^6.0.3",
     "ws": ">=7.4.6"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=20"
   },
   "dependencies": {
-    "copyfiles": "^2.4.1",
     "cron": "^3.3.0",
-    "dotenv": "^9.0.2",
+    "dotenv": "^16.4.0",
     "node-html-to-image": "^5.0.0",
-    "path": "^0.12.7",
-    "regenerator-runtime": "^0.13.9",
+    "tsx": "^4.19.0",
     "twitter-api-v2": "^1.15.2"
   }
 }
