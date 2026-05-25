@@ -27,7 +27,7 @@
   "devDependencies": {
     "@types/cron": "^2.4.3",
     "@types/node": "^20.14.0",
-    "@types/puppeteer": "^5.4.3",
+    "@types/react": "^19.2.15",
     "@typescript-eslint/eslint-plugin": "^8.59.0",
     "@typescript-eslint/parser": "^8.59.0",
     "browserslist": ">=4.16.5",
@@ -51,10 +51,12 @@
     "node": ">=20"
   },
   "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "copyfiles": "^2.4.1",
     "cron": "^3.3.0",
     "dotenv": "^16.4.0",
-    "node-html-to-image": "^5.0.0",
+    "satori": "^0.26.0",
+    "satori-html": "^0.3.2",
     "twitter-api-v2": "^1.15.2"
   }
 }

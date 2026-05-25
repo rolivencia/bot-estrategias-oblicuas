@@ -1,7 +1,8 @@
-import nodeHtmlToImage from 'node-html-to-image';
+import satori from 'satori';
+import { html } from 'satori-html';
+import { Resvg } from '@resvg/resvg-js';
 import { Card } from './cards.js';
 import { noisyBackground } from './base64image.js';
-import { base64font } from './base64font.js';
 import path from 'node:path';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -15,87 +16,96 @@ const backgroundImages = [
   path.join(__dirname, '/assets/background4.jpg'),
 ];
 
-const style = (rotation: string) => `
-            <style>
-              @font-face {
-                font-family: "Sequel Sans Roman Body";
-                src: url(${base64font}) format('woff2');
-              }
-              body {
-                width: 1024px;
-                height: 512px;
-              }
-              #image-background {
-                position: absolute;
-                top: 8px;
-                left: 8px;
-              }
-              #card-overlay {
-                position: absolute;
-                top: 80px;
-                left: 112px;
-                background-color: white;
-                border-radius: 32px;
-                width: 768px;
-                height: 384px;
-                background-image: url(${noisyBackground});
-                z-index: 2;
-                transform: rotate(${rotation});
-                opacity: 0.15;
-              }
-              #card {
-                z-index: 1;
-                position: absolute;
-                top: 80px;
-                left: 112px;
-                background-color: white;
-                border-radius: 32px;
-                width: 768px;
-                height: 384px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-family: "Sequel Sans Roman Body";
-                transform: rotate(${rotation});
-                box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-              }
-              #card p{
-                padding: 16px 64px 16px 64px;
-                font-size: 36px;
-                text-align: left;
-                z-index: 3
-              }
-            </style>
+const fontData = fs.readFileSync(
+  path.join(__dirname, '/assets/sequel-sans-roman-body.otf'),
+);
+
+const styles = (rotation: string) => `
+  #root {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  #background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  #card-overlay {
+    position: absolute;
+    top: 80px;
+    left: 112px;
+    display: flex;
+    width: 768px;
+    height: 384px;
+    border-radius: 32px;
+    background-color: white;
+    background-image: url(${noisyBackground});
+    opacity: 0.15;
+    transform: rotate(${rotation});
+  }
+  #card {
+    position: absolute;
+    top: 80px;
+    left: 112px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 768px;
+    height: 384px;
+    border-radius: 32px;
+    background-color: white;
+    transform: rotate(${rotation});
+    box-shadow: 0px 54px 55px rgba(0, 0, 0, 0.25),
+      0px 12px 13px rgba(0, 0, 0, 0.17), 0px 4px 6px rgba(0, 0, 0, 0.12);
+  }
+  #card p {
+    padding: 16px 64px;
+    font-size: 36px;
+    text-align: left;
+  }
 `;
 
-export const generateImage = (
-  card: Card,
-): Promise<string | Buffer | (string | Buffer)[]> => {
-  const rotation = `${Math.random() * (3 - -3) + -3}deg`; // Reassign to recalculate degree for current card.
-  const base64Image = generateBase64Image();
+const markup = (card: Card, backgroundImage: string, rotation: string) => html`
+  <div id="root">
+    <style>
+      ${styles(rotation)}
+    </style>
+    <img id="background" src="${backgroundImage}" />
+    <div id="card-overlay"></div>
+    <div id="card"><p>${card.quote}</p></div>
+  </div>
+`;
 
-  return nodeHtmlToImage({
-    html: `
-        <html>
-            ${style(rotation)}
-            <body>
-                <img id="image-background" src="{{imageSource}}"/>
-                <div id="card-overlay"></div>
-                <div id="card"><p>${card.quote}</p></div>
-            </body>
-        </html>`,
-    content: {
-      imageSource: base64Image,
-    },
-    puppeteerArgs: { args: ['--no-sandbox'] },
+export const generateImage = async (card: Card): Promise<Buffer> => {
+  const width = 1024;
+  const height = 512;
+  const fontFamily = 'Sequel Sans Roman Body';
+  const rotation = `${Math.random() * 6 - 3}deg`;
+  const backgroundImage = generateBase64Image();
+
+  const element = markup(
+    card,
+    backgroundImage,
+    rotation,
+  ) as unknown as Parameters<typeof satori>[0];
+
+  const svg = await satori(element, {
+    width,
+    height,
+    fonts: [{ name: fontFamily, data: fontData, weight: 400, style: 'normal' }],
   });
+
+  const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: width } });
+  return Buffer.from(resvg.render().asPng());
 };
 
 const generateBase64Image = () => {
   const imageFile =
     backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
-
-  const binaryFile = fs.readFileSync(imageFile);
-  const base64Image = Buffer.from(binaryFile).toString('base64');
-  return `data:image/png;base64, ${base64Image}`;
+  const base64Image = fs.readFileSync(imageFile).toString('base64');
+  return `data:image/jpeg;base64,${base64Image}`;
 };
