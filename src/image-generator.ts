@@ -9,10 +9,6 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const WIDTH = 1024;
-const HEIGHT = 512;
-const FONT_FAMILY = 'Sequel Sans Roman Body';
-
 const backgroundImages = [
   path.join(__dirname, '/assets/background.jpg'),
   path.join(__dirname, '/assets/background2.jpg'),
@@ -28,15 +24,15 @@ const styles = (rotation: string) => `
   #root {
     display: flex;
     position: relative;
-    width: ${WIDTH}px;
-    height: ${HEIGHT}px;
+    width: 100%;
+    height: 100%;
   }
   #background {
     position: absolute;
     top: 0;
     left: 0;
-    width: ${WIDTH}px;
-    height: ${HEIGHT}px;
+    width: 100%;
+    height: 100%;
   }
   #card-overlay {
     position: absolute;
@@ -70,7 +66,6 @@ const styles = (rotation: string) => `
     padding: 16px 64px;
     font-size: 36px;
     text-align: left;
-    font-family: '${FONT_FAMILY}';
   }
 `;
 
@@ -86,6 +81,9 @@ const markup = (card: Card, backgroundImage: string, rotation: string) => html`
 `;
 
 export const generateImage = async (card: Card): Promise<Buffer> => {
+  const width = 1024;
+  const height = 512;
+  const fontFamily = 'Sequel Sans Roman Body';
   const rotation = `${Math.random() * 6 - 3}deg`;
   const backgroundImage = generateBase64Image();
 
@@ -96,14 +94,12 @@ export const generateImage = async (card: Card): Promise<Buffer> => {
   ) as unknown as Parameters<typeof satori>[0];
 
   const svg = await satori(element, {
-    width: WIDTH,
-    height: HEIGHT,
-    fonts: [
-      { name: FONT_FAMILY, data: fontData, weight: 400, style: 'normal' },
-    ],
+    width,
+    height,
+    fonts: [{ name: fontFamily, data: fontData, weight: 400, style: 'normal' }],
   });
 
-  const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: WIDTH } });
+  const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: width } });
   return Buffer.from(resvg.render().asPng());
 };
 
