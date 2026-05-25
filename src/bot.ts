@@ -11,10 +11,9 @@ const uploadMedia = async (): Promise<string[]> => {
   console.log(
     `Twitted strategy ${card.id}: ${card.quote} - ${new Date().toString()}`,
   );
-  const bufferedImage: string | Buffer | (string | Buffer)[] =
-    await generateImage(card);
+  const image: Buffer = await generateImage(card);
 
-  const mediaId = await client.v1.uploadMedia(bufferedImage as Buffer, {
+  const mediaId = await client.v1.uploadMedia(image, {
     type: 'png',
   });
   await client.v1.createMediaMetadata(mediaId, {
