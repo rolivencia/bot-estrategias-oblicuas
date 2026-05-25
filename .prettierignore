@@ -13,3 +13,8 @@ coverage
 package.json
 package-lock.json
 yarn.lock
+
+# Generated assets / binary data
+src/assets
+src/base64font.ts
+src/base64image.ts
