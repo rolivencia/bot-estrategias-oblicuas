@@ -9,13 +9,15 @@ For an english version, refer to README_en.md file.
 ## Tech stack
 
 ### Repositorio base
-* [node-ts-starter](https://github.com/HorusGoul/node-ts-starter) - Proyecto base para generar aplicaciones en Node con TypeScript.
+
+- [node-ts-starter](https://github.com/HorusGoul/node-ts-starter) - Proyecto base para generar aplicaciones en Node con TypeScript.
 
 ### Librerías
-* [satori](https://www.npmjs.com/package/satori) - Generación de imágenes a partir de texto y HTML.
-* [prettier](https://www.npmjs.com/package/prettier) - Para mantener convenciones de estilo en el código.
-* [dotenv](https://www.npmjs.com/package/dotenv) - Manejo de variables de entorno.
-* [twitter-api-v2](https://www.npmjs.com/package/twitter-api-v2) - Cliente de Twitter para NodeJS, con soporte para tipos.
+
+- [satori](https://www.npmjs.com/package/satori) - Generación de imágenes a partir de texto y HTML.
+- [prettier](https://www.npmjs.com/package/prettier) - Para mantener convenciones de estilo en el código.
+- [dotenv](https://www.npmjs.com/package/dotenv) - Manejo de variables de entorno.
+- [twitter-api-v2](https://www.npmjs.com/package/twitter-api-v2) - Cliente de Twitter para NodeJS, con soporte para tipos.
 
 ## Para comenzar
 
