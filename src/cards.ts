@@ -1,4 +1,4 @@
-import cards from './cards.json';
+import cards from './cards.json' with { type: 'json' };
 
 export interface Card {
   id: number;
