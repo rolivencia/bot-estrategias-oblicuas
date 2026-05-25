@@ -2,8 +2,11 @@ import nodeHtmlToImage from 'node-html-to-image';
 import { Card } from './cards';
 import { noisyBackground } from './base64image';
 import { base64font } from './base64font';
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const backgroundImages = [
   path.join(__dirname, '/assets/background.jpg'),

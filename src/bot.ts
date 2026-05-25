@@ -1,5 +1,4 @@
-import 'regenerator-runtime/runtime';
-import TwitterApi, { TweetV1 } from 'twitter-api-v2';
+import { TwitterApi, TweetV1 } from 'twitter-api-v2';
 import { generateImage } from './image-generator';
 import { Card, getCard } from './cards';
 import { config } from './config';
@@ -22,7 +21,7 @@ const uploadMedia = async (): Promise<string[]> => {
     alt_text: { text: card.quote },
   });
 
-  return await Promise.all([mediaId]);
+  return [mediaId];
 };
 
 // TODO: Add alt text for card images, for use by screen readers
